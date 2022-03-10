@@ -42,10 +42,10 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 5,
-              crossAxisCount: 2,
-            ),
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                crossAxisCount: 2,
+                childAspectRatio: 0.9),
             itemCount: subs.length,
             itemBuilder: (context, index) {
               var sub = subs[index];
@@ -85,9 +85,16 @@ class _HomeState extends State<Home> {
 
                                   var textColor =
                                       details.date.month == displayDate.month
-                                          ? Colors.black
-                                          : Colors.grey;
-                                  if (isSelectDay) textColor = Colors.white;
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color
+                                              ?.withOpacity(0.5);
+                                  // if (isSelectDay) textColor = Colors.white;
 
                                   return CircleAvatar(
                                     backgroundColor: isSelectDay

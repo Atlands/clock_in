@@ -30,7 +30,19 @@ class MyApp extends StatelessWidget {
         ],
         locale: const Locale('zh'),
         title: 'Frequency',
-        theme: ThemeData(platform: TargetPlatform.iOS),
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+            platform: TargetPlatform.iOS,
+            brightness: Brightness.light,
+            appBarTheme: AppBarTheme(
+                elevation: 0,
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).textTheme.titleLarge?.color),
+                titleTextStyle: TextStyle(
+                    color: Theme.of(context).textTheme.titleLarge?.color),
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor)),
+        darkTheme: ThemeData(
+            platform: TargetPlatform.iOS, brightness: Brightness.dark),
         home: FutureBuilder(
             future: context.read<ApplicationProvider>().initDatabase(),
             builder: ((context, snapshot) {

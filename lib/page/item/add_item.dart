@@ -27,8 +27,8 @@ class _AddItemState extends State<AddItem> {
         onPressed: () {
           context.read<AddItemProvider>().addAction(context);
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'Add',
+        child: const Icon(Icons.done),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
@@ -123,21 +123,19 @@ class _AddItemState extends State<AddItem> {
                       itemBuilder: (context, index) {
                         var colorValue = provider.colorValues[index];
 
-                        return Material(
-                          child: Ink(
-                            decoration: BoxDecoration(
-                                color: HexColor(colorValue),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(50))),
-                            child: InkWell(
+                        return Ink(
+                          decoration: BoxDecoration(
+                              color: HexColor(colorValue),
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(50)),
-                              onTap: () {
-                                setState(() {
-                                  item.color = colorValue;
-                                });
-                              },
-                            ),
+                                  const BorderRadius.all(Radius.circular(50))),
+                          child: InkWell(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(50)),
+                            onTap: () {
+                              setState(() {
+                                item.color = colorValue;
+                              });
+                            },
                           ),
                         );
                       },

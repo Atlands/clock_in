@@ -91,16 +91,22 @@ class _AddTodoState extends State<AddTodo> {
                 var displayDate = details.visibleDates[7];
 
                 var textColor = details.date.month == displayDate.month
-                    ? Colors.black
-                    : Colors.grey;
-                if (isToday) textColor = Colors.white;
+                    ? Theme.of(context).textTheme.bodyLarge?.color
+                    : Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color
+                        ?.withOpacity(0.5);
+                // if (isToday) textColor = Colors.white;
 
                 return CircleAvatar(
-                  backgroundColor:
-                      isToday ? Theme.of(context).primaryColor : Colors.white,
+                  backgroundColor: isToday
+                      ? Theme.of(context).primaryColor
+                      : Colors.transparent,
                   child: Text(
                     details.date.day.toString(),
-                    style: TextStyle(color: textColor),
+                    style: TextStyle(
+                        color: textColor, fontWeight: FontWeight.bold),
                   ),
                 );
               },

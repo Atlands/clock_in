@@ -58,12 +58,16 @@ class _ItemDetailState extends State<ItemDetail> {
 
                           var textColor =
                               details.date.month == displayDate.month
-                                  ? Colors.black
-                                  : Colors.grey;
-                          if (isSelectDay &&
-                              details.date.month == displayDate.month) {
-                            textColor = Colors.white;
-                          }
+                                  ? Theme.of(context).textTheme.bodyLarge?.color
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color
+                                      ?.withOpacity(0.5);
+                          // if (isSelectDay &&
+                          //     details.date.month == displayDate.month) {
+                          //   textColor = Colors.white;
+                          // }
 
                           return CircleAvatar(
                             backgroundColor: isSelectDay &&
@@ -111,10 +115,11 @@ class _ItemDetailState extends State<ItemDetail> {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    sub.item.note ?? '没有描述',
-                    style: const TextStyle(fontSize: 15, color: Colors.white),
-                  ),
+                  child: Text(sub.item.note ?? '没有描述',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1 //const TextStyle(fontSize: 15, color: Theme.of(context).textTheme.titleLarge?.color),
+                      ),
                 ),
               ),
             ),

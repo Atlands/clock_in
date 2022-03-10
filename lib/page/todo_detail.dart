@@ -106,8 +106,12 @@ class _TodoDetailState extends State<TodoDetail> {
                 var displayDate = details.visibleDates[7];
 
                 var textColor = details.date.month == displayDate.month
-                    ? Colors.black
-                    : Colors.grey;
+                    ? Theme.of(context).textTheme.bodyLarge?.color
+                    : Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color
+                        ?.withOpacity(0.5);
                 if (isSelectDay && details.date.month == displayDate.month) {
                   textColor = Colors.white;
                 }
@@ -119,7 +123,10 @@ class _TodoDetailState extends State<TodoDetail> {
                           : Colors.transparent,
                   child: Text(
                     details.date.day.toString(),
-                    style: TextStyle(color: textColor, fontSize: 15),
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
                   ),
                 );
               }),
