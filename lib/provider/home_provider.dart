@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frequency/database/sub.dart';
 import 'package:frequency/database/todo.dart';
-import 'package:frequency/page/item_detail.dart';
+import 'package:frequency/page/item/item_detail.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:frequency/provider/item_detail_provider.dart';
+import 'package:frequency/utils/common_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../database/item.dart';
@@ -16,9 +17,7 @@ import 'add_todo_provider.dart';
 class HomeProvider extends ChangeNotifier {
   List<Sub> subs = [];
 
-  HomeProvider(BuildContext context) {
-    queryData(context);
-  }
+  HomeProvider();
 
   pushAddTodo(BuildContext context) {
     Navigator.push(
@@ -53,6 +52,7 @@ class HomeProvider extends ChangeNotifier {
 
   queryData(BuildContext context) async {
     subs.clear();
+
     var db = context.read<ApplicationProvider>().db;
     var maps = await db.query(Item.keyClassName);
     var items = maps.map((e) => Item.fromMap(e));

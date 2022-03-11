@@ -76,6 +76,7 @@ class _AddTodoState extends State<AddTodo> {
               showDatePickerButton: true,
               view: CalendarView.month,
               controller: provider.calendarController,
+              initialSelectedDate: DateTime.now(),
               selectionDecoration: BoxDecoration(
                 color: Colors.transparent,
                 border: Border.all(

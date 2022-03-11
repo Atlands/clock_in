@@ -6,7 +6,7 @@ import 'package:frequency/provider/todo_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../utils/color_utils.dart';
+import '../../utils/color_utils.dart';
 
 class TodoDetail extends StatefulWidget {
   const TodoDetail({Key? key}) : super(key: key);

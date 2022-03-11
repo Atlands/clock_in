@@ -19,9 +19,9 @@ create table ${Item.keyClassName} (
   ${Item.keyId} integer primary key autoincrement, 
   ${Item.keyName} text not null,
   ${Item.keyNote} text,
-  ${Item.keyColor} text not null)
+  ${Item.keyColor} text not null
+)
 ''');
-    }, onUpgrade: (Database db, int version, i) async {
       await db.execute('''
 create table ${Todo.keyClassName}(
   ${Todo.keyId} integer primary key autoincrement,
@@ -30,6 +30,8 @@ create table ${Todo.keyClassName}(
   ${Todo.keyTime} text not null
 )
 ''');
+    }, onUpgrade: (Database db, int version, i) async {
+
     });
     log('message end database');
     return true;

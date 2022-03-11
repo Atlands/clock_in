@@ -5,7 +5,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../utils/color_utils.dart';
+import '../../utils/color_utils.dart';
 
 class ItemDetail extends StatefulWidget {
   const ItemDetail({Key? key}) : super(key: key);
@@ -105,6 +105,20 @@ class _ItemDetailState extends State<ItemDetail> {
         slivers: [
           SliverAppBar(
             title: Text(sub.item.name ?? ''),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    context.read<ItemDetailProvider>().pushEditItem(context);
+                  },
+                  icon: const Icon(Icons.edit)),
+              IconButton(
+                  onPressed: () {
+                    context
+                        .read<ItemDetailProvider>()
+                        .showDeleteDialog(context);
+                  },
+                  icon: const Icon(Icons.delete))
+            ],
             floating: true,
             snap: false,
             pinned: true,
@@ -116,10 +130,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(sub.item.note ?? '没有描述',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1 //const TextStyle(fontSize: 15, color: Theme.of(context).textTheme.titleLarge?.color),
-                      ),
+                      style: Theme.of(context).textTheme.bodyText1),
                 ),
               ),
             ),

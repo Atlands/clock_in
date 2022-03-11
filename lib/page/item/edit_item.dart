@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/utils/color_utils.dart';
-import 'package:frequency/provider/add_item_provider.dart';
+import 'package:frequency/provider/edit_item_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/color_utils.dart';
 import '../../utils/config.dart';
 
-class AddItem extends StatefulWidget {
-  const AddItem({Key? key}) : super(key: key);
+class EditItem extends StatefulWidget {
+  const EditItem({Key? key}) : super(key: key);
 
   @override
-  _AddItemState createState() => _AddItemState();
+  _EditItemState createState() => _EditItemState();
 }
 
-class _AddItemState extends State<AddItem> {
+class _EditItemState extends State<EditItem> {
   var colorController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
-    var provider = context.watch<AddItemProvider>();
+    var provider = context.watch<EditItemProvider>();
     var item = provider.item;
     item.color ??= itemColorValues.first;
     colorController.value = TextEditingValue(
@@ -24,10 +24,10 @@ class _AddItemState extends State<AddItem> {
         selection: TextSelection.fromPosition(TextPosition(
             affinity: TextAffinity.downstream, offset: item.color!.length)));
     return Scaffold(
-      appBar: AppBar(title: const Text('添加事项')),
+      appBar: AppBar(title: const Text('编辑事项')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<AddItemProvider>().addAction(context);
+          context.read<EditItemProvider>().updateAction(context);
         },
         tooltip: 'Add',
         child: const Icon(Icons.done),
@@ -45,12 +45,14 @@ class _AddItemState extends State<AddItem> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: TextEditingController(text: item.name),
                       decoration: const InputDecoration(hintText: '名称'),
                       onChanged: (value) {
                         item.name = value;
                       },
                     ),
                     TextField(
+                      controller: TextEditingController(text: item.note),
                       keyboardType: TextInputType.multiline,
                       maxLines: 3,
                       decoration: const InputDecoration(hintText: '备注'),

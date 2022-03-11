@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frequency/page/todo/add_todo.dart';
-import 'package:frequency/provider/add_todo_provider.dart';
 import 'package:frequency/provider/home_provider.dart';
 import 'package:frequency/utils/color_utils.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +16,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    //   context.read<HomeProvider>().queryData(context);
-    // });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      context.read<HomeProvider>().queryData(context);
+    });
   }
 
   @override
