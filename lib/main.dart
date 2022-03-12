@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor)),
         darkTheme: ThemeData(
             platform: TargetPlatform.iOS, brightness: Brightness.dark),
+        builder: hideKeyboardBuilder,
         home: FutureBuilder(
             future: context.read<ApplicationProvider>().initConfigure(),
             builder: ((context, snapshot) {
@@ -64,4 +65,17 @@ class MyApp extends StatelessWidget {
               }
             })));
   }
+
+  Widget hideKeyboardBuilder(context, child) => Scaffold(
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          child: child,
+        ),
+      );
 }

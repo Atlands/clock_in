@@ -43,6 +43,7 @@ class _ItemDetailState extends State<ItemDetail> {
         slivers: [
           SliverAppBar(
             title: Text(sub.item.name ?? ''),
+            centerTitle: true,
             actions: [
               IconButton(
                   onPressed: () {
