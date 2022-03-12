@@ -117,7 +117,6 @@ class ItemDetailProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     scrollController.dispose();
   }

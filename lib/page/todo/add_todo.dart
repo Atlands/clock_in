@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/page/item/select_item.dart';
-import 'package:frequency/provider/application_provider.dart';
-import 'package:frequency/provider/item/select_item_provider.dart';
 import 'package:frequency/provider/todo/add_todo_provider.dart';
 import 'package:frequency/utils/color_utils.dart';
 import 'package:jiffy/jiffy.dart';

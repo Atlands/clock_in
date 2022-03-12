@@ -1,13 +1,11 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frequency/database/sub.dart';
 import 'package:frequency/database/todo.dart';
 import 'package:frequency/page/item/item_detail.dart';
+import 'package:frequency/page/setting.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:frequency/provider/item/item_detail_provider.dart';
-import 'package:frequency/utils/common_dialog.dart';
+import 'package:frequency/provider/setting_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../database/item.dart';
@@ -18,6 +16,17 @@ class HomeProvider extends ChangeNotifier {
   List<Sub> subs = [];
 
   HomeProvider();
+
+  pushSetting(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChangeNotifierProvider(
+            create: (_) => SettingProvider(),
+            child: const Setting(),
+          ),
+        ));
+  }
 
   pushAddTodo(BuildContext context) {
     Navigator.push(

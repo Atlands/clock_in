@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frequency/database/sub.dart';
 import 'package:frequency/provider/application_provider.dart';

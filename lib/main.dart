@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
               } else {
                 // 请求未结束，显示loading
                 return Center(
-                  child: Image.asset('asset/image/logo.png'),
+                  child: Image.asset('assets/image/logo.png'),
                 );
               }
             })));

@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frequency/database/item.dart';
-import 'package:frequency/database/sub.dart';
-import 'package:frequency/database/todo.dart';
 import 'package:frequency/provider/todo/todo_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

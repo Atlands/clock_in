@@ -1,20 +1,25 @@
 import 'dart:developer';
 
-import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frequency/database/todo.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/item.dart';
 
 class ApplicationProvider extends ChangeNotifier {
   late Database db;
+  late PackageInfo packageInfo;
 
   Future initConfigure() async {
     List<Future> futures = [];
     futures.add(initDatabase());
+    futures.add(initPackage());
     return await Future.wait(futures);
+  }
+
+  initPackage() async {
+    packageInfo = await PackageInfo.fromPlatform();
   }
 
   Future<bool> initDatabase() async {

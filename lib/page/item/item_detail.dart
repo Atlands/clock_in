@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/database/sub.dart';
 import 'package:frequency/provider/item/item_detail_provider.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -18,18 +16,6 @@ class _ItemDetailState extends State<ItemDetail> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    //   var provider = context.read<ItemDetailProvider>();
-    //   // context.read<ItemDetailProvider>().getInitTimes();
-    //   // provider.scrollController
-    //   //     .jumpTo(provider.scrollController.position.maxScrollExtent);
-
-    //   // _scrollController.jumpTo();
-    //   // provider.scrollController.animateTo(
-    //   //     provider.scrollController.position.maxScrollExtent,
-    //   //     duration: const Duration(milliseconds: 500),
-    //   //     curve: Curves.bounceIn);
-    // });
   }
 
   @override

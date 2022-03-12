@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frequency/provider/home_provider.dart';
 import 'package:frequency/utils/color_utils.dart';
@@ -26,7 +25,16 @@ class _HomeState extends State<Home> {
     var provider = context.watch<HomeProvider>();
     var subs = provider.subs;
     return Scaffold(
-      appBar: AppBar(title: const Text('频率')),
+      appBar: AppBar(
+        title: const Text('频率'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.read<HomeProvider>().pushSetting(context);
+              },
+              icon: const Icon(Icons.settings))
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.read<HomeProvider>().pushAddTodo(context);

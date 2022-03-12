@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frequency/database/item.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AddItemProvider extends ChangeNotifier {
   var item = Item();
