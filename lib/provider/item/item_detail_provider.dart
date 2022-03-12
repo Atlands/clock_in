@@ -40,7 +40,7 @@ class ItemDetailProvider extends ChangeNotifier {
       this.initTimes = initTimes;
       notifyListeners();
 
-      Future.delayed(Duration.zero, () async {
+      Future.delayed(const Duration(milliseconds: 10), () async {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
       });
@@ -58,8 +58,8 @@ class ItemDetailProvider extends ChangeNotifier {
         where: '${Item.keyId} = ?', whereArgs: [sub.item.id]);
     await db.delete(Todo.keyClassName,
         where: '${Todo.keyItemId} = ?', whereArgs: [sub.item.id]);
-    Navigator.pop(context);
-    Navigator.pop(context);
+    Navigator.pop(context); //关闭loadingDialog
+    Navigator.pop(context); //返回上一页
   }
 
   showDeleteDialog(BuildContext context) {
@@ -113,5 +113,12 @@ class ItemDetailProvider extends ChangeNotifier {
         ),
       );
     }));
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    scrollController.dispose();
   }
 }

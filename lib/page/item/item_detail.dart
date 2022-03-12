@@ -93,6 +93,10 @@ class _ItemDetailState extends State<ItemDetail> {
     var sub = provider.sub;
     var initDate = provider.initTimes[index].dateTime;
     var item = sub.item;
+    var selectDates = sub.todos
+        .where(((element) => element.time?.month == initDate.month))
+        .map((e) => e.time)
+        .toList();
     return Hero(
       tag: '${item.id!}${initDate.year}${initDate.month}',
       child: Card(
@@ -108,47 +112,56 @@ class _ItemDetailState extends State<ItemDetail> {
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
               children: [
-                Expanded(
-                  child: IgnorePointer(
-                    child: SfCalendar(
-                      initialDisplayDate: initDate,
-                      maxDate: initDate.add(const Duration(days: 1)),
-                      minDate: initDate,
-                      view: CalendarView.month,
-                      viewHeaderHeight: 0,
-                      headerStyle: const CalendarHeaderStyle(
-                          textStyle: TextStyle(fontSize: 12)),
-                      monthCellBuilder: (context, details) {
-                        var isSelectDay =
-                            provider.selectDates.contains(details.date);
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: IgnorePointer(
+                        child: SfCalendar(
+                          initialDisplayDate: initDate,
+                          maxDate: initDate.add(const Duration(days: 1)),
+                          minDate: initDate,
+                          view: CalendarView.month,
+                          viewHeaderHeight: 0,
+                          headerStyle: const CalendarHeaderStyle(
+                              textStyle: TextStyle(fontSize: 12)),
+                          monthCellBuilder: (context, details) {
+                            var isSelectDay =
+                                selectDates.contains(details.date);
+                            //provider.selectDates.contains(details.date);
 
-                        var displayDate = details.visibleDates[7];
+                            var displayDate = details.visibleDates[7];
 
-                        var textColor = details.date.month == displayDate.month
-                            ? Theme.of(context).textTheme.bodyLarge?.color
-                            : Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.color
-                                ?.withOpacity(0.5);
+                            var textColor = details.date.month ==
+                                    displayDate.month
+                                ? Theme.of(context).textTheme.bodyLarge?.color
+                                : Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color
+                                    ?.withOpacity(0.5);
 
-                        return CircleAvatar(
-                          backgroundColor: isSelectDay &&
-                                  details.date.month == displayDate.month
-                              ? HexColor(item.color!)
-                              : Colors.transparent,
-                          child: Text(
-                            details.date.day.toString(),
-                            style: TextStyle(color: textColor, fontSize: 10),
-                          ),
-                        );
-                      },
+                            return CircleAvatar(
+                              backgroundColor: isSelectDay &&
+                                      details.date.month == displayDate.month
+                                  ? HexColor(item.color!)
+                                  : Colors.transparent,
+                              child: Text(
+                                details.date.day.toString(),
+                                style:
+                                    TextStyle(color: textColor, fontSize: 10),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+                // Text('${selectDates.length} 次/月',style: TextStyle(color: ),),
               ],
             ),
           ),

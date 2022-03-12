@@ -61,7 +61,9 @@ class MyApp extends StatelessWidget {
                 }
               } else {
                 // 请求未结束，显示loading
-                return Container();
+                return Center(
+                  child: Image.asset('asset/image/logo.png'),
+                );
               }
             })));
   }
