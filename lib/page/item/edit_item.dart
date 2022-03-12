@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/provider/edit_item_provider.dart';
+import 'package:frequency/provider/item/edit_item_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/color_utils.dart';

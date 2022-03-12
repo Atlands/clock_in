@@ -5,15 +5,13 @@ import 'package:frequency/provider/application_provider.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
-import '../database/todo.dart';
+import '../../database/todo.dart';
 
 class TodoDetailProvider extends ChangeNotifier {
   Sub sub;
   DateTime initDate;
   List<Todo> todos = [];
-  TodoDetailProvider(this.sub, this.initDate) {
-    viewChanged(initDate);
-  }
+  TodoDetailProvider(this.sub, this.initDate);
 
   deleteTodo(BuildContext context, int index) async {
     var todo = todos[index];
@@ -34,15 +32,16 @@ class TodoDetailProvider extends ChangeNotifier {
   }
 
   viewChanged(DateTime time) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    todos = sub.todos
-        .where((element) =>
-            element.time!.year == time.year &&
-            element.time!.month == time.month)
-        .toList();
-    todos.sort(
-      (a, b) => a.time!.compareTo(b.time!),
-    );
-    notifyListeners();
+    Future.delayed(Duration.zero, () async {
+      todos = sub.todos
+          .where((element) =>
+              element.time!.year == time.year &&
+              element.time!.month == time.month)
+          .toList();
+      todos.sort(
+        (a, b) => a.time!.compareTo(b.time!),
+      );
+      notifyListeners();
+    });
   }
 }

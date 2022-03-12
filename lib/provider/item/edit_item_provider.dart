@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../database/item.dart';
+import '../../database/item.dart';
 
 class EditItemProvider extends ChangeNotifier {
   Item item;

@@ -6,13 +6,13 @@ import 'package:frequency/database/sub.dart';
 import 'package:frequency/database/todo.dart';
 import 'package:frequency/page/item/item_detail.dart';
 import 'package:frequency/provider/application_provider.dart';
-import 'package:frequency/provider/item_detail_provider.dart';
+import 'package:frequency/provider/item/item_detail_provider.dart';
 import 'package:frequency/utils/common_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../database/item.dart';
 import '../page/todo/add_todo.dart';
-import 'add_todo_provider.dart';
+import 'todo/add_todo_provider.dart';
 
 class HomeProvider extends ChangeNotifier {
   List<Sub> subs = [];
@@ -31,23 +31,23 @@ class HomeProvider extends ChangeNotifier {
   }
 
   pushItemDetails(BuildContext context, Sub sub) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => ChangeNotifierProvider(
-    //               create: (_) => ItemDetailProvider(sub),
-    //               child: const ItemDetail(),
-    //             )));
-    Navigator.push(context,
-        PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
-      return FadeTransition(
-        opacity: animation,
-        child: ChangeNotifierProvider(
-          create: (_) => ItemDetailProvider(sub),
-          child: const ItemDetail(),
-        ),
-      );
-    })).then((value) => queryData(context));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => ItemDetailProvider(sub),
+                  child: const ItemDetail(),
+                ))).then((value) => queryData(context));
+    // Navigator.push(context,
+    //     PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+    //   return FadeTransition(
+    //     opacity: animation,
+    //     child: ChangeNotifierProvider(
+    //       create: (_) => ItemDetailProvider(sub),
+    //       child: const ItemDetail(),
+    //     ),
+    //   );
+    // })).then((value) => queryData(context));
   }
 
   queryData(BuildContext context) async {

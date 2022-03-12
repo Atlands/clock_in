@@ -1,16 +1,12 @@
-import 'dart:developer';
-
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:frequency/utils/color_utils.dart';
-import 'package:frequency/database/todo.dart';
-import 'package:frequency/provider/add_todo_provider.dart';
-import 'package:frequency/provider/application_provider.dart';
-import 'package:frequency/provider/select_item_provider.dart';
 import 'package:frequency/page/item/select_item.dart';
+import 'package:frequency/provider/application_provider.dart';
+import 'package:frequency/provider/item/select_item_provider.dart';
+import 'package:frequency/provider/todo/add_todo_provider.dart';
+import 'package:frequency/utils/color_utils.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
@@ -76,7 +72,6 @@ class _AddTodoState extends State<AddTodo> {
               showDatePickerButton: true,
               view: CalendarView.month,
               controller: provider.calendarController,
-              initialSelectedDate: DateTime.now(),
               selectionDecoration: BoxDecoration(
                 color: Colors.transparent,
                 border: Border.all(
@@ -112,15 +107,17 @@ class _AddTodoState extends State<AddTodo> {
                 );
               },
               onSelectionChanged: (details) {
-                setState(() {
-                  todo.time = details.date;
+                Future.delayed(Duration.zero, () async {
+                  setState(() {
+                    todo.time = details.date;
+                  });
                 });
               },
             ),
             const Divider(
               color: Colors.grey,
             ),
-            Text(formatDate(todo.time!, [yyyy, '-', mm, '-', dd, ' ', DD]))
+            Text(Jiffy(todo.time).yMMMEd)
           ],
         ),
       ),

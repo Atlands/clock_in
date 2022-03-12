@@ -54,68 +54,65 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   context.read<HomeProvider>().pushItemDetails(context, sub);
                 },
-                child: Hero(
-                  tag: '${item.id!}${maxDate.year}${maxDate.month}',
-                  child: Card(
-                    elevation: 5,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(14))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: IgnorePointer(
-                              child: SfCalendar(
-                                maxDate: maxDate,
-                                view: CalendarView.month,
-                                viewHeaderHeight: 0,
-                                headerStyle: const CalendarHeaderStyle(
-                                    textStyle: TextStyle(fontSize: 12)),
-                                monthCellBuilder: (context, details) {
-                                  var isSelectDay =
-                                      selectDates.contains(details.date);
+                child: Card(
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(14))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: IgnorePointer(
+                            child: SfCalendar(
+                              maxDate: maxDate,
+                              view: CalendarView.month,
+                              viewHeaderHeight: 0,
+                              headerStyle: const CalendarHeaderStyle(
+                                  textStyle: TextStyle(fontSize: 12)),
+                              monthCellBuilder: (context, details) {
+                                var isSelectDay =
+                                    selectDates.contains(details.date);
 
-                                  var displayDate = details.visibleDates[7];
+                                var displayDate = details.visibleDates[7];
 
-                                  var textColor =
-                                      details.date.month == displayDate.month
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color
-                                              ?.withOpacity(0.5);
-                                  // if (isSelectDay) textColor = Colors.white;
+                                var textColor =
+                                    details.date.month == displayDate.month
+                                        ? Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color
+                                            ?.withOpacity(0.5);
+                                // if (isSelectDay) textColor = Colors.white;
 
-                                  return CircleAvatar(
-                                    backgroundColor: isSelectDay
-                                        ? HexColor(item.color!)
-                                        : Colors.transparent,
-                                    child: Text(
-                                      details.date.day.toString(),
-                                      style: TextStyle(
-                                          color: textColor, fontSize: 10),
-                                    ),
-                                  );
-                                },
-                              ),
+                                return CircleAvatar(
+                                  backgroundColor: isSelectDay
+                                      ? HexColor(item.color!)
+                                      : Colors.transparent,
+                                  child: Text(
+                                    details.date.day.toString(),
+                                    style: TextStyle(
+                                        color: textColor, fontSize: 10),
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                          const Divider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              item.name!,
-                              style: const TextStyle(fontSize: 18),
-                            ),
+                        ),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            item.name!,
+                            style: const TextStyle(fontSize: 18),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

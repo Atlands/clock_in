@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/database/sub.dart';
-import 'package:frequency/provider/item_detail_provider.dart';
+import 'package:frequency/provider/item/item_detail_provider.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -15,84 +15,21 @@ class ItemDetail extends StatefulWidget {
 }
 
 class _ItemDetailState extends State<ItemDetail> {
-  List<Widget> grids(Sub sub) {
-    var firstTime =
-        Jiffy(sub.todos.isNotEmpty ? sub.todos.first.time! : DateTime.now());
-    firstTime = Jiffy([firstTime.year, firstTime.month, 1]);
-    var lastTime =
-        Jiffy(sub.todos.isNotEmpty ? sub.todos.last.time! : DateTime.now());
-    lastTime = Jiffy([lastTime.year, lastTime.month, 1]);
-    List<Widget> grids = [];
-    lastTime.add(months: 1);
-    while (firstTime.isBefore(lastTime)) {
-      var item = sub.item;
-      var selectDates = sub.todos.map((e) => e.time!);
-      var initDate = firstTime.dateTime;
-      var grid = InkWell(
-        onTap: () {
-          context.read<ItemDetailProvider>().pushTodoDetails(context, initDate);
-        },
-        child: Hero(
-          tag: '${item.id!}${firstTime.year}${firstTime.month}',
-          child: Card(
-            elevation: 5,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: IgnorePointer(
-                      child: SfCalendar(
-                        initialDisplayDate: firstTime.dateTime,
-                        view: CalendarView.month,
-                        viewHeaderHeight: 0,
-                        headerStyle: const CalendarHeaderStyle(
-                            textStyle: TextStyle(fontSize: 12)),
-                        monthCellBuilder: (context, details) {
-                          var isSelectDay = selectDates.contains(details.date);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      var provider = context.read<ItemDetailProvider>();
+      // context.read<ItemDetailProvider>().getInitTimes();
+      // provider.scrollController
+      //     .jumpTo(provider.scrollController.position.maxScrollExtent);
 
-                          var displayDate = details.visibleDates[7];
-
-                          var textColor =
-                              details.date.month == displayDate.month
-                                  ? Theme.of(context).textTheme.bodyLarge?.color
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color
-                                      ?.withOpacity(0.5);
-                          // if (isSelectDay &&
-                          //     details.date.month == displayDate.month) {
-                          //   textColor = Colors.white;
-                          // }
-
-                          return CircleAvatar(
-                            backgroundColor: isSelectDay &&
-                                    details.date.month == displayDate.month
-                                ? HexColor(item.color!)
-                                : Colors.transparent,
-                            child: Text(
-                              details.date.day.toString(),
-                              style: TextStyle(color: textColor, fontSize: 10),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-      grids.add(grid);
-      firstTime.add(months: 1);
-    }
-    return grids;
+      // _scrollController.jumpTo();
+      // provider.scrollController.animateTo(
+      //     provider.scrollController.position.maxScrollExtent,
+      //     duration: const Duration(milliseconds: 500),
+      //     curve: Curves.bounceIn);
+    });
   }
 
   @override
@@ -100,8 +37,21 @@ class _ItemDetailState extends State<ItemDetail> {
     var provider = context.watch<ItemDetailProvider>();
     var sub = provider.sub;
 
+    // return Scaffold(
+    //   appBar: AppBar(title: Text(sub.item.name ?? '')),
+    //   body: GridView.builder(
+    //     cacheExtent: 20,
+    //     reverse: true,
+    //     gridDelegate:
+    //         SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    //     itemBuilder: (context, index) => cardBuilder(context, index),
+    //     itemCount: provider.initTimes.length,
+    //   ),
+    // );
+
     return Scaffold(
       body: CustomScrollView(
+        controller: provider.scrollController,
         slivers: [
           SliverAppBar(
             title: Text(sub.item.name ?? ''),
@@ -136,11 +86,83 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
           ),
           SliverPadding(
-              padding: const EdgeInsets.all(8),
-              sliver:
-                  SliverGrid.count(crossAxisCount: 2, children: grids(sub))),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
+            sliver: SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                    ((context, index) => cardBuilder(context, index)),
+                    childCount: provider.initTimes.length),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2)),
+          ),
         ],
       ),
     );
+  }
+
+  cardBuilder(BuildContext context, int index) {
+    {
+      var provider = context.watch<ItemDetailProvider>();
+      var sub = provider.sub;
+      var initDate = provider.initTimes[index].dateTime;
+      var item = sub.item;
+      return InkWell(
+        onTap: () {
+          context.read<ItemDetailProvider>().pushTodoDetails(context, initDate);
+        },
+        child: Hero(
+          tag: '${item.id!}${initDate.year}${initDate.month}',
+          child: Card(
+            elevation: 5,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(14))),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: IgnorePointer(
+                      child: SfCalendar(
+                        initialDisplayDate: initDate,
+                        view: CalendarView.month,
+                        viewHeaderHeight: 0,
+                        headerStyle: const CalendarHeaderStyle(
+                            textStyle: TextStyle(fontSize: 12)),
+                        monthCellBuilder: (context, details) {
+                          var isSelectDay =
+                              provider.selectDates.contains(details.date);
+
+                          var displayDate = details.visibleDates[7];
+
+                          var textColor =
+                              details.date.month == displayDate.month
+                                  ? Theme.of(context).textTheme.bodyLarge?.color
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color
+                                      ?.withOpacity(0.5);
+
+                          return CircleAvatar(
+                            backgroundColor: isSelectDay &&
+                                    details.date.month == displayDate.month
+                                ? HexColor(item.color!)
+                                : Colors.transparent,
+                            child: Text(
+                              details.date.day.toString(),
+                              style: TextStyle(color: textColor, fontSize: 10),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

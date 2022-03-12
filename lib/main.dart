@@ -3,9 +3,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frequency/home.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:frequency/provider/home_provider.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => ApplicationProvider())],
     child: const MyApp(),
@@ -47,10 +48,11 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData(
             platform: TargetPlatform.iOS, brightness: Brightness.dark),
         home: FutureBuilder(
-            future: context.read<ApplicationProvider>().initDatabase(),
+            future: context.read<ApplicationProvider>().initConfigure(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
+                  Jiffy.locale("zh_cn");
                   return ChangeNotifierProvider(
                       create: (context) => HomeProvider(), child: const Home());
                 } else {

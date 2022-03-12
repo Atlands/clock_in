@@ -4,16 +4,51 @@ import 'package:frequency/database/sub.dart';
 import 'package:frequency/database/todo.dart';
 import 'package:frequency/page/item/edit_item.dart';
 import 'package:frequency/page/todo/todo_detail.dart';
-import 'package:frequency/provider/edit_item_provider.dart';
-import 'package:frequency/provider/todo_detail_provider.dart';
+import 'package:frequency/provider/item/edit_item_provider.dart';
+import 'package:frequency/provider/todo/todo_detail_provider.dart';
 import 'package:frequency/utils/common_dialog.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
-import 'application_provider.dart';
+import '../application_provider.dart';
 
 class ItemDetailProvider extends ChangeNotifier {
   Sub sub;
-  ItemDetailProvider(this.sub);
+  List<DateTime> selectDates = [];
+  List<Jiffy> initTimes = [];
+  final ScrollController scrollController = ScrollController();
+
+  ItemDetailProvider(this.sub) {
+    getInitTimes();
+  }
+
+  getInitTimes() async {
+    await Future.delayed(Duration.zero, () async {
+      selectDates = sub.todos.map((e) => e.time!).toList();
+      var dates = selectDates;
+      if (dates.isEmpty) dates.add(DateTime.now());
+
+      List<Jiffy> initTimes = [];
+
+      var firstTime = Jiffy([dates.first.year, dates.first.month, 1]);
+      var lastTime = Jiffy([dates.last.year, dates.last.month, 1]);
+      lastTime.add(months: 1);
+      while (firstTime.isBefore(lastTime)) {
+        initTimes.add(firstTime.clone());
+        firstTime.add(months: 1);
+      }
+      this.initTimes = initTimes;
+      notifyListeners();
+
+      Future.delayed(Duration.zero, () async {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+      });
+    });
+
+    // scrollController.animateTo(scrollController.position.maxScrollExtent,
+    //     duration: const Duration(milliseconds: 500), curve: Curves.bounceIn);
+  }
 
   _deleteItem(BuildContext context) async {
     showLoadingDialog(context);
@@ -68,23 +103,15 @@ class ItemDetailProvider extends ChangeNotifier {
   }
 
   pushTodoDetails(BuildContext context, DateTime initDate) {
-    // Navigator.push(context,
-    //     PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
-    //   return FadeTransition(
-    //     opacity: animation,
-    //     child: ChangeNotifierProvider(
-    //       create: (_) => TodoDetailProvider(sub, initDate),
-    //       child: const TodoDetail(),
-    //     ),
-    //   );
-    // }));
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider(
-                  create: (_) => TodoDetailProvider(sub, initDate),
-                  child: const TodoDetail(),
-                )));
+    Navigator.push(context,
+        PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+      return FadeTransition(
+        opacity: animation,
+        child: ChangeNotifierProvider(
+          create: (_) => TodoDetailProvider(sub, initDate),
+          child: const TodoDetail(),
+        ),
+      );
+    }));
   }
 }

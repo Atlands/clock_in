@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/utils/color_utils.dart';
-import 'package:frequency/provider/add_item_provider.dart';
+import 'package:frequency/provider/item/add_item_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/config.dart';

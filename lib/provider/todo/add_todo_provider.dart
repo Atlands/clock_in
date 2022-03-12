@@ -5,10 +5,11 @@ import 'package:frequency/provider/application_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../database/item.dart';
+import '../../database/item.dart';
 
 class AddTodoProvider extends ChangeNotifier {
-  CalendarController calendarController = CalendarController();
+  CalendarController calendarController = CalendarController()
+    ..selectedDate = DateTime.now();
   Todo todo = Todo()
     ..time =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);

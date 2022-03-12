@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/page/item/add_item.dart';
 import 'package:frequency/utils/color_utils.dart';
-import 'package:frequency/provider/add_item_provider.dart';
-import 'package:frequency/provider/select_item_provider.dart';
+import 'package:frequency/provider/item/add_item_provider.dart';
+import 'package:frequency/provider/item/select_item_provider.dart';
 import 'package:provider/provider.dart';
 
 class SelectItem extends StatefulWidget {

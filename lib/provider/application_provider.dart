@@ -3,12 +3,19 @@ import 'dart:developer';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frequency/database/todo.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/item.dart';
 
 class ApplicationProvider extends ChangeNotifier {
   late Database db;
+
+  Future initConfigure() async {
+    List<Future> futures = [];
+    futures.add(initDatabase());
+    return await Future.wait(futures);
+  }
 
   Future<bool> initDatabase() async {
     log('message init database');
@@ -30,10 +37,7 @@ create table ${Todo.keyClassName}(
   ${Todo.keyTime} text not null
 )
 ''');
-    }, onUpgrade: (Database db, int version, i) async {
-
-    });
-    log('message end database');
+    }, onUpgrade: (Database db, int version, i) async {});
     return true;
   }
 

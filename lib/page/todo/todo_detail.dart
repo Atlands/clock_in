@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:frequency/database/item.dart';
 import 'package:frequency/database/sub.dart';
 import 'package:frequency/database/todo.dart';
-import 'package:frequency/provider/todo_detail_provider.dart';
+import 'package:frequency/provider/todo/todo_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -30,14 +32,13 @@ class _TodoDetailState extends State<TodoDetail> {
     var provider = context.watch<TodoDetailProvider>();
     var sub = provider.sub;
     var item = sub.item;
-    var selectDates = sub.todos.map((e) => e.time!);
     return Scaffold(
       appBar: AppBar(title: Text(item.name ?? '')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            calendarView(item, provider, selectDates),
+            calendarView(),
             todoLIstView(provider, item),
           ],
         ),
@@ -79,8 +80,11 @@ class _TodoDetailState extends State<TodoDetail> {
     );
   }
 
-  Hero calendarView(
-      Item item, TodoDetailProvider provider, Iterable<DateTime> selectDates) {
+  Hero calendarView() {
+    var provider = context.watch<TodoDetailProvider>();
+    var sub = provider.sub;
+    var item = sub.item;
+    var selectDates = sub.todos.map((e) => e.time!);
     return Hero(
       tag: '${item.id!}${provider.initDate.year}${provider.initDate.month}',
       child: Card(
@@ -96,6 +100,7 @@ class _TodoDetailState extends State<TodoDetail> {
               selectionDecoration:
                   const BoxDecoration(color: Colors.transparent),
               onViewChanged: (details) {
+                log('message calendar view change');
                 context
                     .read<TodoDetailProvider>()
                     .viewChanged(details.visibleDates[8]);
