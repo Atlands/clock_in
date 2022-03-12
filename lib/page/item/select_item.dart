@@ -46,6 +46,8 @@ class _SelectItemState extends State<SelectItem> {
                 borderRadius: BorderRadius.all(Radius.circular(14))),
             color: HexColor(item.color ?? '#ffffff'),
             child: ListTile(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14))),
               title: Text(item.name!),
               subtitle: Text(
                 item.note ?? '',

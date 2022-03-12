@@ -21,7 +21,7 @@ class _AddTodoState extends State<AddTodo> {
     var provider = context.watch<AddTodoProvider>();
     var todo = provider.todo;
     return Scaffold(
-      appBar: AppBar(title: const Text('添加事项')),
+      appBar: AppBar(title: const Text('添加记录')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.read<AddTodoProvider>().addAction(context);
@@ -129,46 +129,34 @@ class _AddTodoState extends State<AddTodo> {
     var item = provider.todo.item;
     return Card(
       elevation: 10,
-      // color: HexColor(item?.color ?? ''),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(14))),
-      child: Ink(
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (_) => SelectItemProvider(
-                            context.read<ApplicationProvider>().db),
-                        child: const SelectItem(),
-                      ),
-                    ))
-                .then((value) =>
-                    context.read<AddTodoProvider>().selectItem(value));
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                const Text(
-                  '事项',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                if (item != null)
-                  SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: CircleAvatar(
-                      backgroundColor: HexColor(item.color ?? ''),
-                    ),
+      child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        onTap: () {
+          context.read<AddTodoProvider>().pushSelectItem(context);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              const Text(
+                '事项',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              if (item != null)
+                SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircleAvatar(
+                    backgroundColor: HexColor(item.color ?? ''),
                   ),
-                const SizedBox(width: 10),
-                Text(item?.name ?? ''),
-                const Icon(Icons.navigate_next),
-              ],
-            ),
+                ),
+              const SizedBox(width: 10),
+              Text(item?.name ?? ''),
+              const Icon(Icons.navigate_next),
+            ],
           ),
         ),
       ),

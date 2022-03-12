@@ -50,14 +50,15 @@ class _HomeState extends State<Home> {
               var maxDate =
                   selectDates.isNotEmpty ? selectDates.last : DateTime.now();
 
-              return InkWell(
-                onTap: () {
-                  context.read<HomeProvider>().pushItemDetails(context, sub);
-                },
-                child: Card(
-                  elevation: 5,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(14))),
+              return Card(
+                elevation: 5,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(14))),
+                child: InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(14)),
+                  onTap: () {
+                    context.read<HomeProvider>().pushItemDetails(context, sub);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

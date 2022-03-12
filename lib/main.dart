@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:frequency/home.dart';
+import 'package:frequency/page/home.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:frequency/provider/home_provider.dart';
 import 'package:jiffy/jiffy.dart';

@@ -18,36 +18,24 @@ class _ItemDetailState extends State<ItemDetail> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      var provider = context.read<ItemDetailProvider>();
-      // context.read<ItemDetailProvider>().getInitTimes();
-      // provider.scrollController
-      //     .jumpTo(provider.scrollController.position.maxScrollExtent);
+    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    //   var provider = context.read<ItemDetailProvider>();
+    //   // context.read<ItemDetailProvider>().getInitTimes();
+    //   // provider.scrollController
+    //   //     .jumpTo(provider.scrollController.position.maxScrollExtent);
 
-      // _scrollController.jumpTo();
-      // provider.scrollController.animateTo(
-      //     provider.scrollController.position.maxScrollExtent,
-      //     duration: const Duration(milliseconds: 500),
-      //     curve: Curves.bounceIn);
-    });
+    //   // _scrollController.jumpTo();
+    //   // provider.scrollController.animateTo(
+    //   //     provider.scrollController.position.maxScrollExtent,
+    //   //     duration: const Duration(milliseconds: 500),
+    //   //     curve: Curves.bounceIn);
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<ItemDetailProvider>();
     var sub = provider.sub;
-
-    // return Scaffold(
-    //   appBar: AppBar(title: Text(sub.item.name ?? '')),
-    //   body: GridView.builder(
-    //     cacheExtent: 20,
-    //     reverse: true,
-    //     gridDelegate:
-    //         SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-    //     itemBuilder: (context, index) => cardBuilder(context, index),
-    //     itemCount: provider.initTimes.length,
-    //   ),
-    // );
 
     return Scaffold(
       body: CustomScrollView(
@@ -100,69 +88,71 @@ class _ItemDetailState extends State<ItemDetail> {
   }
 
   cardBuilder(BuildContext context, int index) {
-    {
-      var provider = context.watch<ItemDetailProvider>();
-      var sub = provider.sub;
-      var initDate = provider.initTimes[index].dateTime;
-      var item = sub.item;
-      return InkWell(
-        onTap: () {
-          context.read<ItemDetailProvider>().pushTodoDetails(context, initDate);
-        },
-        child: Hero(
-          tag: '${item.id!}${initDate.year}${initDate.month}',
-          child: Card(
-            elevation: 5,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: IgnorePointer(
-                      child: SfCalendar(
-                        initialDisplayDate: initDate,
-                        view: CalendarView.month,
-                        viewHeaderHeight: 0,
-                        headerStyle: const CalendarHeaderStyle(
-                            textStyle: TextStyle(fontSize: 12)),
-                        monthCellBuilder: (context, details) {
-                          var isSelectDay =
-                              provider.selectDates.contains(details.date);
+    var provider = context.watch<ItemDetailProvider>();
+    var sub = provider.sub;
+    var initDate = provider.initTimes[index].dateTime;
+    var item = sub.item;
+    return Hero(
+      tag: '${item.id!}${initDate.year}${initDate.month}',
+      child: Card(
+        elevation: 5,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(14))),
+        child: InkWell(
+          borderRadius: const BorderRadius.all(Radius.circular(14)),
+          onTap: () {
+            context
+                .read<ItemDetailProvider>()
+                .pushTodoDetails(context, initDate);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: IgnorePointer(
+                    child: SfCalendar(
+                      initialDisplayDate: initDate,
+                      maxDate: initDate.add(const Duration(days: 1)),
+                      minDate: initDate,
+                      view: CalendarView.month,
+                      viewHeaderHeight: 0,
+                      headerStyle: const CalendarHeaderStyle(
+                          textStyle: TextStyle(fontSize: 12)),
+                      monthCellBuilder: (context, details) {
+                        var isSelectDay =
+                            provider.selectDates.contains(details.date);
 
-                          var displayDate = details.visibleDates[7];
+                        var displayDate = details.visibleDates[7];
 
-                          var textColor =
-                              details.date.month == displayDate.month
-                                  ? Theme.of(context).textTheme.bodyLarge?.color
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color
-                                      ?.withOpacity(0.5);
+                        var textColor = details.date.month == displayDate.month
+                            ? Theme.of(context).textTheme.bodyLarge?.color
+                            : Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.color
+                                ?.withOpacity(0.5);
 
-                          return CircleAvatar(
-                            backgroundColor: isSelectDay &&
-                                    details.date.month == displayDate.month
-                                ? HexColor(item.color!)
-                                : Colors.transparent,
-                            child: Text(
-                              details.date.day.toString(),
-                              style: TextStyle(color: textColor, fontSize: 10),
-                            ),
-                          );
-                        },
-                      ),
+                        return CircleAvatar(
+                          backgroundColor: isSelectDay &&
+                                  details.date.month == displayDate.month
+                              ? HexColor(item.color!)
+                              : Colors.transparent,
+                          child: Text(
+                            details.date.day.toString(),
+                            style: TextStyle(color: textColor, fontSize: 10),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 }
