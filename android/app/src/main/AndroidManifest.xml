@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.frequency">
+    package="com.atlands.frequency">
    <application
-        android:label="frequency"
+        android:label="Frequency"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
