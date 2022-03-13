@@ -26,13 +26,13 @@ class _HomeState extends State<Home> {
     var subs = provider.subs;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('频率'),
+        title: const Text('Frequency'),
         actions: [
           IconButton(
               onPressed: () {
                 context.read<HomeProvider>().pushSetting(context);
               },
-              icon: const Icon(Icons.settings))
+              icon: const Icon(Icons.settings_outlined))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -97,7 +97,6 @@ class _HomeState extends State<Home> {
                                             .bodyLarge
                                             ?.color
                                             ?.withOpacity(0.5);
-                                // if (isSelectDay) textColor = Colors.white;
 
                                 return CircleAvatar(
                                   backgroundColor: isSelectDay

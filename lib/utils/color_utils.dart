@@ -12,3 +12,6 @@ class HexColor extends Color {
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
+
+const lightScaffoldBackgroundColor = Color.fromARGB(255, 242, 243, 245);
+const darkScaffoldBackgroundColor = Colors.black;

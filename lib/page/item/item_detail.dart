@@ -29,20 +29,19 @@ class _ItemDetailState extends State<ItemDetail> {
         slivers: [
           SliverAppBar(
             title: Text(sub.item.name ?? ''),
-            centerTitle: true,
             actions: [
               IconButton(
                   onPressed: () {
                     context.read<ItemDetailProvider>().pushEditItem(context);
                   },
-                  icon: const Icon(Icons.edit)),
+                  icon: const Icon(Icons.edit_outlined)),
               IconButton(
                   onPressed: () {
                     context
                         .read<ItemDetailProvider>()
                         .showDeleteDialog(context);
                   },
-                  icon: const Icon(Icons.delete))
+                  icon: const Icon(Icons.delete_outline))
             ],
             floating: true,
             snap: false,

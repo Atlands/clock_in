@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frequency/page/home.dart';
 import 'package:frequency/provider/application_provider.dart';
 import 'package:frequency/provider/home_provider.dart';
+import 'package:frequency/utils/color_utils.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
@@ -37,16 +39,29 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: ThemeData(
             platform: TargetPlatform.iOS,
-            brightness: Brightness.light,
+            scaffoldBackgroundColor: lightScaffoldBackgroundColor,
             appBarTheme: AppBarTheme(
                 elevation: 0,
-                iconTheme: IconThemeData(
-                    color: Theme.of(context).textTheme.titleLarge?.color),
-                titleTextStyle: TextStyle(
-                    color: Theme.of(context).textTheme.titleLarge?.color),
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor)),
+                systemOverlayStyle: SystemUiOverlayStyle.dark
+                    .copyWith(statusBarColor: lightScaffoldBackgroundColor),
+                iconTheme:
+                    const IconThemeData(color: Colors.black, opacity: 0.7),
+                centerTitle: false,
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+                backgroundColor: lightScaffoldBackgroundColor)),
         darkTheme: ThemeData(
-            platform: TargetPlatform.iOS, brightness: Brightness.dark),
+            appBarTheme: AppBarTheme(
+                elevation: 0,
+                centerTitle: false,
+                systemOverlayStyle: SystemUiOverlayStyle.light
+                    .copyWith(statusBarColor: darkScaffoldBackgroundColor),
+                backgroundColor: darkScaffoldBackgroundColor),
+            platform: TargetPlatform.iOS,
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: darkScaffoldBackgroundColor),
         builder: hideKeyboardBuilder,
         home: FutureBuilder(
             future: context.read<ApplicationProvider>().initConfigure(),
