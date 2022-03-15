@@ -11,7 +11,8 @@ import '../item/select_item_provider.dart';
 
 class AddTodoProvider extends ChangeNotifier {
   CalendarController calendarController = CalendarController()
-    ..selectedDate = DateTime.now();
+    ..selectedDate =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   Todo todo = Todo()
     ..time =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);

@@ -44,25 +44,7 @@ class _HomeState extends State<Home> {
       ),
       body: Stack(
         children: [
-          if (subs.isEmpty)
-            Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.date_range_outlined,
-                  size: 150,
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-                Text('没有记录',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.grey.withOpacity(0.5),
-                        fontWeight: FontWeight.bold)),
-                const SizedBox(height: 100)
-              ],
-            )),
+          if (subs.isEmpty) emptyView(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
@@ -155,5 +137,26 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  Center emptyView() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.date_range_outlined,
+          size: 150,
+          color: Colors.grey.withOpacity(0.5),
+        ),
+        Text('没有记录',
+            style: TextStyle(
+                fontSize: 30,
+                color: Colors.grey.withOpacity(0.5),
+                fontWeight: FontWeight.bold)),
+        const SizedBox(height: 100)
+      ],
+    ));
   }
 }

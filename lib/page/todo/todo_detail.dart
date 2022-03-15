@@ -5,7 +5,7 @@ import 'package:frequency/database/item.dart';
 import 'package:frequency/provider/todo/todo_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../utils/color_utils.dart';
 
 class TodoDetail extends StatefulWidget {
@@ -37,43 +37,52 @@ class _TodoDetailState extends State<TodoDetail> {
         child: Column(
           children: [
             calendarView(),
-            todoLIstView(provider, item),
+            todoListView(provider, item),
           ],
         ),
       ),
     );
   }
 
-  Expanded todoLIstView(TodoDetailProvider provider, Item item) {
+  Widget todoListView(TodoDetailProvider provider, Item item) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: provider.todos.length,
-        itemBuilder: (context, index) {
-          var todo = provider.todos[index];
-          return Dismissible(
-            key: Key('${todo.id}'),
-            background:
-                const ListTile(trailing: Icon(Icons.delete, color: Colors.red)),
-            onDismissed: (direction) {
-              context.read<TodoDetailProvider>().deleteTodo(context, index);
-            },
-            child: Card(
-              elevation: 5,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(14))),
-              child: ListTile(
-                title: Text(todo.name ?? ''),
-                leading: CircleAvatar(
-                  backgroundColor: HexColor(item.color!),
-                  child: Text(
-                    todo.time!.day.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        child: ListView.builder(
+          itemCount: provider.todos.length,
+          itemBuilder: (context, index) {
+            var todo = provider.todos[index];
+            return SlidableAutoCloseBehavior(
+              closeWhenOpened: true,
+              child: Slidable(
+                endActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    extentRatio: 0.5,
+                    children: [
+                      SlidableAction(
+                        onPressed: (_) {
+                          context
+                              .read<TodoDetailProvider>()
+                              .deleteTodo(context, index);
+                        },
+                        icon: Icons.delete,
+                        backgroundColor: Colors.red,
+                      ),
+                    ]),
+                child: ListTile(
+                  title: Text(todo.name ?? ''),
+                  leading: CircleAvatar(
+                    backgroundColor: HexColor(item.color!),
+                    child: Text(
+                      todo.time!.day.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
