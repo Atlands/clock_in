@@ -33,7 +33,7 @@ class _EditItemState extends State<EditItem> {
         child: const Icon(Icons.done),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Card(

@@ -27,7 +27,7 @@ class _AddTodoState extends State<AddTodo> {
         child: const Icon(Icons.done),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             calendarView(context),
@@ -90,7 +90,7 @@ class _AddTodoState extends State<AddTodo> {
                         .bodyLarge
                         ?.color
                         ?.withOpacity(0.5);
-                // if (isToday) textColor = Colors.white;
+                if (isToday) textColor = Colors.white;
 
                 return CircleAvatar(
                   backgroundColor: isToday

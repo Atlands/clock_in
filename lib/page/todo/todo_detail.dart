@@ -19,10 +19,6 @@ class _TodoDetailState extends State<TodoDetail> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    // var provider = context.read<TodoDetailProvider>();
-    // provider.viewChanged(provider.initDate);
-    // });
   }
 
   @override
@@ -33,7 +29,7 @@ class _TodoDetailState extends State<TodoDetail> {
     return Scaffold(
       appBar: AppBar(title: Text(item.name ?? '')),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             calendarView(),

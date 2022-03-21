@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/page/item/add_item.dart';
-import 'package:frequency/utils/color_utils.dart';
-import 'package:frequency/provider/item/add_item_provider.dart';
 import 'package:frequency/provider/item/select_item_provider.dart';
+import 'package:frequency/utils/color_utils.dart';
 import 'package:provider/provider.dart';
 
 class SelectItem extends StatefulWidget {
@@ -23,20 +21,13 @@ class _SelectItemState extends State<SelectItem> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                              create: (_) => AddItemProvider(),
-                              child: const AddItem(),
-                            ))).then((value) =>
-                    context.read<SelectItemProvider>().addItem(value));
+                context.read<SelectItemProvider>().pushAddItem(context);
               },
               icon: const Icon(Icons.add))
         ],
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16.0),
         itemCount: items.length,
         itemBuilder: (context, index) {
           var item = items[index];

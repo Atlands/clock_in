@@ -60,7 +60,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 100),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
             sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                     ((context, index) => cardBuilder(context, index)),
@@ -128,6 +128,11 @@ class _ItemDetailState extends State<ItemDetail> {
                                     .bodyLarge
                                     ?.color
                                     ?.withOpacity(0.5);
+
+                            if (isSelectDay &&
+                                details.date.month == displayDate.month) {
+                              textColor = Colors.white;
+                            }
 
                             return CircleAvatar(
                               backgroundColor: isSelectDay &&
