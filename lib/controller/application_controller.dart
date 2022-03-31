@@ -1,13 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:frequency/database/todo.dart';
+import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/item.dart';
+import '../database/todo.dart';
 
-class ApplicationProvider extends ChangeNotifier {
+class ApplicationController extends GetxController{
   late Database db;
   late PackageInfo packageInfo;
 
@@ -15,7 +15,9 @@ class ApplicationProvider extends ChangeNotifier {
     List<Future> futures = [];
     futures.add(initDatabase());
     futures.add(initPackage());
-    return await Future.wait(futures);
+    var r = await Future.wait(futures);
+     log('end config');
+     return r;
   }
 
   initPackage() async {
@@ -26,7 +28,7 @@ class ApplicationProvider extends ChangeNotifier {
     log('message init database');
     db = await openDatabase('frequency.db', version: 3,
         onCreate: (Database db, int version) async {
-      await db.execute('''
+          await db.execute('''
 create table ${Item.keyClassName} ( 
   ${Item.keyId} integer primary key autoincrement, 
   ${Item.keyName} text not null,
@@ -34,7 +36,7 @@ create table ${Item.keyClassName} (
   ${Item.keyColor} text not null
 )
 ''');
-      await db.execute('''
+          await db.execute('''
 create table ${Todo.keyClassName}(
   ${Todo.keyId} integer primary key autoincrement,
   ${Todo.keyName} text not null,
@@ -42,7 +44,7 @@ create table ${Todo.keyClassName}(
   ${Todo.keyTime} text not null
 )
 ''');
-    }, onUpgrade: (Database db, int version, i) async {});
+        }, onUpgrade: (Database db, int version, i) async {});
     return true;
   }
 

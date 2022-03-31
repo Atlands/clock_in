@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/provider/todo/add_todo_provider.dart';
-import 'package:frequency/utils/color_utils.dart';
+import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class AddTodo extends StatefulWidget {
-  const AddTodo({Key? key}) : super(key: key);
+import '../../utils/color_utils.dart';
+import 'add_todo_logic.dart';
 
-  @override
-  _AddTodoState createState() => _AddTodoState();
-}
+class AddTodoPage extends StatelessWidget {
+  final logic = Get.put(AddTodoLogic());
 
-class _AddTodoState extends State<AddTodo> {
+  AddTodoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    var provider = context.watch<AddTodoProvider>();
-    var todo = provider.todo;
     return Scaffold(
       appBar: AppBar(title: const Text('添加记录')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<AddTodoProvider>().addAction(context);
+          logic.addAction();
         },
         tooltip: 'Add',
         child: const Icon(Icons.done),
@@ -30,19 +26,24 @@ class _AddTodoState extends State<AddTodo> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            calendarView(context),
-            itemView(context),
+            calendarView(),
+            itemView(),
             Card(
               elevation: 10,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(14))),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  maxLines: 5,
-                  decoration: const InputDecoration(hintText: '备注'),
-                  onChanged: (value) {
-                    todo.name = value;
+                child: GetBuilder<AddTodoLogic>(
+                  assignId: true,
+                  builder: (logic) {
+                    return TextField(
+                      maxLines: 5,
+                      decoration: const InputDecoration(hintText: '备注'),
+                      onChanged: (value) {
+                        logic.todo.name = value;
+                      },
+                    );
                   },
                 ),
               ),
@@ -53,9 +54,7 @@ class _AddTodoState extends State<AddTodo> {
     );
   }
 
-  Card calendarView(BuildContext context) {
-    var provider = context.watch<AddTodoProvider>();
-    var todo = provider.todo;
+  Card calendarView() {
     return Card(
       elevation: 10,
       shape: const RoundedRectangleBorder(
@@ -68,7 +67,7 @@ class _AddTodoState extends State<AddTodo> {
               showNavigationArrow: true,
               showDatePickerButton: true,
               view: CalendarView.month,
-              controller: provider.calendarController,
+              controller: logic.calendarController,
               selectionDecoration: BoxDecoration(
                 color: Colors.transparent,
                 border: Border.all(
@@ -77,6 +76,7 @@ class _AddTodoState extends State<AddTodo> {
               ),
               cellEndPadding: 0,
               monthCellBuilder: (context, details) {
+                // var context = Get.context!;
                 var today = DateTime.now();
                 today = DateTime(today.year, today.month, today.day);
                 var isToday = details.date == today;
@@ -103,27 +103,23 @@ class _AddTodoState extends State<AddTodo> {
                   ),
                 );
               },
-              onSelectionChanged: (details) {
-                Future.delayed(Duration.zero, () async {
-                  setState(() {
-                    todo.time = details.date;
-                  });
-                });
-              },
+              onSelectionChanged: logic.onSelectionChanged,
             ),
             const Divider(
               color: Colors.grey,
             ),
-            Text(Jiffy(todo.time).yMMMEd)
+            GetBuilder<AddTodoLogic>(
+                // tag: 'date',
+                builder: (logic) {
+              return Text(Jiffy(logic.todo.time).yMMMEd);
+            })
           ],
         ),
       ),
     );
   }
 
-  Card itemView(BuildContext context) {
-    var provider = context.watch<AddTodoProvider>();
-    var item = provider.todo.item;
+  Card itemView() {
     return Card(
       elevation: 10,
       shape: const RoundedRectangleBorder(
@@ -131,31 +127,35 @@ class _AddTodoState extends State<AddTodo> {
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(14)),
         onTap: () {
-          context.read<AddTodoProvider>().pushSelectItem(context);
+          logic.pushSelectItem();
         },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              const Text(
-                '事项',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              if (item != null)
-                SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircleAvatar(
-                    backgroundColor: HexColor(item.color ?? ''),
-                  ),
+        child: GetBuilder<AddTodoLogic>(builder: (logic) {
+          var item = logic.todo.item;
+          // return Container();
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                const Text(
+                  '事项',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              const SizedBox(width: 10),
-              Text(item?.name ?? ''),
-              const Icon(Icons.navigate_next),
-            ],
-          ),
-        ),
+                const Spacer(),
+                if (item != null)
+                  SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircleAvatar(
+                      backgroundColor: HexColor(item.color ?? 'ffffff'),
+                    ),
+                  ),
+                const SizedBox(width: 10),
+                Text(item?.name ?? ''),
+                const Icon(Icons.navigate_next),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
