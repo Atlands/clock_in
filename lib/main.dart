@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,35 +9,40 @@ import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 
 void main() async {
+  //禁止横屏
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   final logic = Get.put(ApplicationController());
-   MyApp({Key? key}) : super(key: key);
+
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-   return GetMaterialApp(
-     initialRoute: RouteConfig.main,
-      getPages: RouteConfig.getPages,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('zh'),
-        Locale('en')
-        // const Locale('ar'),
-        // const Locale('ja'),
-      ],
-      locale: const Locale('zh'),
-      title: 'Frequency',
-      themeMode: ThemeMode.system,
+    return GetMaterialApp(
+        initialRoute: RouteConfig.main,
+        getPages: RouteConfig.getPages,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('zh'),
+          Locale('en')
+          // const Locale('ar'),
+          // const Locale('ja'),
+        ],
+        locale: const Locale('zh'),
+        title: 'Frequency',
+        themeMode: ThemeMode.system,
         theme: ThemeData(
             platform: TargetPlatform.iOS,
             scaffoldBackgroundColor: lightScaffoldBackgroundColor,
@@ -48,7 +51,7 @@ class MyApp extends StatelessWidget {
                 systemOverlayStyle: SystemUiOverlayStyle.dark
                     .copyWith(statusBarColor: lightScaffoldBackgroundColor),
                 iconTheme:
-                const IconThemeData(color: Colors.black, opacity: 0.7),
+                    const IconThemeData(color: Colors.black, opacity: 0.7),
                 centerTitle: false,
                 titleTextStyle: const TextStyle(
                     color: Colors.black,
@@ -67,7 +70,8 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: darkScaffoldBackgroundColor),
         builder: hideKeyboardBuilder,
         home: FutureBuilder(
-            future: logic.initConfigure(),//context.read<ApplicationProvider>().initConfigure(),
+            future: logic.initConfigure(),
+            //context.read<ApplicationProvider>().initConfigure(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
