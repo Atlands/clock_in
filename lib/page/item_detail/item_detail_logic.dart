@@ -17,7 +17,10 @@ class ItemDetailLogic extends GetxController {
 
   int get gridCount {
     if (todos.isEmpty) return 1;
-    return (Jiffy(todos.last.time!).diff(todos.first.time!, Units.MONTH) + 1)
+    return (Jiffy(DateTime(todos.last.time!.year, todos.last.time!.month)).diff(
+                DateTime(todos.first.time!.year, todos.first.time!.month),
+                Units.MONTH) +
+            1)
         .toInt();
   }
 
@@ -38,10 +41,17 @@ class ItemDetailLogic extends GetxController {
       _queryItem(itemId),
       _queryTodos(itemId),
     ]);
-    Future.delayed(Duration.zero,(){
-      scrollController.jumpTo(300.0 * (todos.length + 1));
-    });
+    // Future.delayed(Duration(microseconds: 500), () {
+    //   scrollController.jumpTo(500.0 * (todos.length/2 + 1));
+    //   // scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    //   print('hhhhh ${scrollController.position.maxScrollExtent}');
+    // });
+    _scrollEnd();
+  }
 
+  _scrollEnd() async {
+    var h = 180.0 * (gridCount/2);
+    scrollController.jumpTo(h);
   }
 
   Future _queryItem(int itemId) async {
@@ -107,7 +117,8 @@ class ItemDetailLogic extends GetxController {
   }
 
   pushTodoDetails(DateTime dateTime) async {
-    await Get.toNamed('${RouteConfig.todoDetail}?itemId=${item.id}&initDate=$dateTime');
+    await Get.toNamed(
+        '${RouteConfig.todoDetail}?itemId=${item.id}&initDate=$dateTime');
     _queryTodos(item.id!);
   }
 

@@ -150,7 +150,12 @@ class AddTodoPage extends StatelessWidget {
                     ),
                   ),
                 const SizedBox(width: 10),
-                Text(item?.name ?? ''),
+                 Container(
+                   constraints:const BoxConstraints(maxWidth: 100),
+                    child: Text(
+                  item?.name ?? '',
+                  maxLines: 1,
+                )),
                 const Icon(Icons.navigate_next),
               ],
             ),

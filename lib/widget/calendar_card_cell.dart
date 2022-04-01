@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../database/item.dart';
@@ -42,7 +43,7 @@ class CalendarCardCell extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 5,
         padding: const EdgeInsets.all(8.0),
-        primary: Colors.white,
+        primary: Get.theme.cardColor,
         onPrimary: HexColor(item.color!),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(14))),
@@ -67,13 +68,13 @@ class CalendarCardCell extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _dates.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7),
+                crossAxisCount: 7,
+                mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+            ),
             itemBuilder: (context, index) {
               var date = _dates[index];
               var isSelectDay = selectDates.contains(date);
-              //provider.selectDates.contains(details.date);
-
-              // var displayDate = details.visibleDates[7];
 
               var textColor = date.month == initDate.month
                   ? Theme.of(context).textTheme.bodyLarge?.color

@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
    return GetMaterialApp(
      initialRoute: RouteConfig.main,
       getPages: RouteConfig.getPages,
@@ -70,13 +71,13 @@ class MyApp extends StatelessWidget {
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
-                  log('create home');
-                  Jiffy.locale("zh_cn");
+                  // Jiffy.locale("zh_cn");
                   return HomePage();
                 } else {
                   return Container();
                 }
               } else {
+                Jiffy.locale("zh_cn");
                 // 请求未结束，显示loading
                 return Center(
                   child: Image.asset('assets/image/logo.png'),
