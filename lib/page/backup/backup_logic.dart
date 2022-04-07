@@ -76,10 +76,9 @@ class BackupLogic extends GetxController {
         await FilePicker.platform.pickFiles(withData: true);
 
     if (result != null) {
-      // File file = File(result.files.single.path!);
-      _restoreBackup(String.fromCharCodes(result.files.single.bytes!));
-    } else {
-      // User canceled the picker
+      _restoreBackup(String.fromCharCodes(result.files.single.bytes!))
+          .then((_) => Get.snackbar(_info.appName, '数据恢复完成'))
+          .catchError((_) => Get.snackbar(_info.appName, '恢复失败'));
     }
   }
 
@@ -101,7 +100,5 @@ class BackupLogic extends GetxController {
       }
     }
     await batch.commit(continueOnError: false, noResult: true);
-
-    Get.snackbar(_info.appName, '数据恢复完成');
   }
 }
