@@ -1,6 +1,8 @@
+import 'package:frequency/page/todo_detail/todo_edit_dialog.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../controller/application_controller.dart';
 import '../../database/item.dart';
@@ -35,6 +37,16 @@ class TodoDetailLogic extends GetxController {
     super.onInit();
   }
 
+  showEditTodoDialog(Todo todo) async {
+    var text = await Get.dialog(TodoEditDialog(todo));
+    if (text != null) {
+      todo.name = text;
+      await _db.update(Todo.keyClassName, todo.toMap(),
+          where: '${Todo.keyId} = ?', whereArgs: [todo.id]);
+      update(['todo_list']);
+    }
+  }
+
   _queryData() async {
     int itemId = int.tryParse(Get.parameters['itemId'] ?? '') ?? 0;
 
@@ -57,6 +69,7 @@ class TodoDetailLogic extends GetxController {
 
     item = list.first.map<Item>((e) => Item.fromMap(e)).first;
     todos = list.last.map((e) => Todo.fromMap(e)).toList();
+    // calendarController.
     update(['todo_list', 'item']);
   }
 

@@ -83,7 +83,6 @@ class AddItemLogic extends GetxController {
 
   @override
   void onClose() {
-    print('edit close');
     nameController.dispose();
     noteController.dispose();
     colorController.dispose();

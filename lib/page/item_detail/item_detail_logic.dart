@@ -30,8 +30,14 @@ class ItemDetailLogic extends GetxController {
   @override
   void onInit() {
     _db = Get.find<ApplicationController>().db;
-    _queryData();
     super.onInit();
+  }
+
+
+  @override
+  void onReady() {
+    _queryData();
+    super.onReady();
   }
 
   _queryData() async {

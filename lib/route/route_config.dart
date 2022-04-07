@@ -14,6 +14,7 @@ class RouteConfig {
   static const String itemDetail = '/item_detail';
   static const String editItem = '/edit_item';
   static const String addTodo = '/add_todo';
+  // static const String editTodo = '/edit_todo';
   static const String addItem = '/add_item';
   static const String todoDetail = '/todo_detail';
   static const String selectItem = '/select_item';
@@ -23,6 +24,7 @@ class RouteConfig {
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomePage()),
     GetPage(name: addTodo, page: () => AddTodoPage()),
+    // GetPage(name: editTodo, page: () => AddTodoPage()),
     GetPage(name: selectItem, page: () => SelectItemPage()),
     GetPage(name: addItem, page: () => AddItemPage()),
     GetPage(name: editItem, page: () => AddItemPage()),
