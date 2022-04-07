@@ -12,6 +12,8 @@ class ApplicationController extends GetxController {
   late Database db;
   late PackageInfo packageInfo;
 
+  final _createTables = [Item.createItemSql,Todo.createTodoSql];
+
   Future initConfigure() async {
    // await Jiffy.locale("zh_cn");
     List<Future> futures = [];
@@ -25,25 +27,11 @@ class ApplicationController extends GetxController {
   }
 
   Future<bool> _initDatabase() async {
-    log('message init database');
     db = await openDatabase('frequency.db', version: 3,
         onCreate: (Database db, int version) async {
-      await db.execute('''
-create table ${Item.keyClassName} ( 
-  ${Item.keyId} integer primary key autoincrement, 
-  ${Item.keyName} text not null,
-  ${Item.keyNote} text,
-  ${Item.keyColor} text not null
-)
-''');
-      await db.execute('''
-create table ${Todo.keyClassName}(
-  ${Todo.keyId} integer primary key autoincrement,
-  ${Todo.keyName} text not null,
-  ${Todo.keyItemId} integer not null,
-  ${Todo.keyTime} text not null
-)
-''');
+      for(var sql in _createTables){
+        await db.execute(sql);
+      }
     }, onUpgrade: (Database db, int version, i) async {});
     return true;
   }

@@ -38,13 +38,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   syncfusion_flutter_calendar: ^19.4.54
   sqflite: ^2.0.2
-#  provider: ^6.0.2
+  #  provider: ^6.0.2
   fluttertoast: ^8.0.9
   jiffy: ^5.0.0
   package_info_plus: ^1.4.0
   url_launcher: ^6.0.20
   flutter_slidable: ^1.2.0
   get: ^4.6.1
+  encrypt: ^5.0.1 #加密
+  permission_handler: ^9.2.0 #权限
+  file_picker: ^4.5.1
 
 dev_dependencies:
   flutter_test:

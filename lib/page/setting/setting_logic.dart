@@ -1,8 +1,14 @@
 import 'package:frequency/controller/application_controller.dart';
+import 'package:frequency/route/route_config.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingLogic extends GetxController {
+
+  pushBackup(){
+    Get.toNamed(RouteConfig.backup);
+  }
+
   sendEmail() {
     var packageInfo = Get.find<ApplicationController>().packageInfo;
     var uri = Uri(

@@ -24,18 +24,27 @@ class SettingPage extends StatelessWidget {
               elevation: 12,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(14))),
-              child: ListTile(
-                title: const Text('问题建议'),
-                trailing: const Icon(Icons.navigate_next),
-                onTap: logic.sendEmail,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(14))),
+              child: Column(
+                children: [
+                  itemView(title: '问题建议', onTap: logic.sendEmail),
+                  itemView(title: '备份恢复', onTap: logic.pushBackup),
+                ],
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  ListTile itemView({required String title,required Function() onTap}) {
+    return ListTile(
+                  title:  Text(title),
+                  trailing: const Icon(Icons.navigate_next),
+                  onTap: onTap,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(14))),
+                );
   }
 
   Widget appInfoView(BuildContext context) {

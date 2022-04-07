@@ -3,7 +3,6 @@ import 'package:frequency/route/route_config.dart';
 import 'package:get/get.dart';
 
 import '../../database/item.dart';
-import '../../database/sub.dart';
 import '../../database/todo.dart';
 
 class HomeLogic extends GetxController {
@@ -21,8 +20,9 @@ class HomeLogic extends GetxController {
     super.onInit();
   }
 
-  pushSetting() {
-    Get.toNamed(RouteConfig.setting);
+  pushSetting() async {
+    await Get.toNamed(RouteConfig.setting);
+    _queryData();
   }
 
   pushAddTodo() async {
@@ -30,8 +30,8 @@ class HomeLogic extends GetxController {
     _queryData();
   }
 
-  pushItemDetails(Item item)async {
-   await Get.toNamed('${RouteConfig.itemDetail}?itemId=${item.id}');
+  pushItemDetails(Item item) async {
+    await Get.toNamed('${RouteConfig.itemDetail}?itemId=${item.id}');
     _queryData();
   }
 

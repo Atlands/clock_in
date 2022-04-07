@@ -7,6 +7,15 @@ class Todo {
   static const keyName = 'name';
   static const keyTime = 'time';
 
+  static const createTodoSql = '''
+      create table $keyClassName(
+        $keyId integer primary key autoincrement,
+        $keyName text not null,
+        $keyItemId integer not null,
+        $keyTime text not null
+      )
+    ''';
+
   int? id;
   Item? item;
   String? name;
