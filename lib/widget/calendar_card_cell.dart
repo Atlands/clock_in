@@ -39,6 +39,7 @@ class CalendarCardCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(context.findRenderObject()?.constraints.toString());
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 5,
@@ -62,45 +63,47 @@ class CalendarCardCell extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          GridView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _dates.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-            ),
-            itemBuilder: (context, index) {
-              var date = _dates[index];
-              var isSelectDay = selectDates.contains(date);
+          LayoutBuilder(builder: (context, constraints) {
+            // debugPrint(constraints.maxWidth.toString());
+            return Wrap(
+              spacing: 2,
+              runSpacing: 2,
+              children: [
+                ..._dates.map((date) {
+                  // var date = _dates[index];
+                  var isSelectDay = selectDates.contains(date);
 
-              var textColor = date.month == initDate.month
-                  ? Theme.of(context).textTheme.bodyLarge?.color
-                  : Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.color
-                      ?.withOpacity(0.5);
+                  var textColor = date.month == initDate.month
+                      ? Theme.of(context).textTheme.bodyLarge?.color
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.color
+                          ?.withOpacity(0.5);
 
-              if (isSelectDay && date.month == initDate.month) {
-                textColor = Colors.white;
-              }
-
-              return CircleAvatar(
-                backgroundColor: isSelectDay && date.month == initDate.month
-                    ? HexColor(item.color!)
-                    : Colors.transparent,
-                child: Text(
-                  date.day.toString(),
-                  style: TextStyle(color: textColor, fontSize: 10),
-                ),
-              );
-            },
-          ),
-          if (showItem) const Divider(),
-          if (showItem)
+                  if (isSelectDay && date.month == initDate.month) {
+                    textColor = Colors.white;
+                  }
+                  return SizedBox(
+                    width: constraints.maxWidth / 7 - 2,
+                    height: constraints.maxWidth / 7 - 2,
+                    child: CircleAvatar(
+                      backgroundColor:
+                          isSelectDay && date.month == initDate.month
+                              ? HexColor(item.color!)
+                              : Colors.transparent,
+                      child: Text(
+                        date.day.toString(),
+                        style: TextStyle(color: textColor, fontSize: 10),
+                      ),
+                    ),
+                  );
+                })
+              ],
+            );
+          }),
+          if (showItem) ...[
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
@@ -109,6 +112,7 @@ class CalendarCardCell extends StatelessWidget {
                 maxLines: 1,
               ),
             )
+          ]
         ],
       ),
     );

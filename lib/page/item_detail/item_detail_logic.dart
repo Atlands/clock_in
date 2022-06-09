@@ -64,7 +64,7 @@ class ItemDetailLogic extends GetxController {
     var res = await _db.query(Item.keyClassName,
         where: '${Item.keyId} = ?', whereArgs: [itemId], limit: 1);
     item = Item.fromMap(res.first);
-    update(['item_detail']);
+    update();
   }
 
   Future _queryTodos(int itemId) async {
@@ -73,7 +73,7 @@ class ItemDetailLogic extends GetxController {
         whereArgs: [itemId],
         orderBy: Todo.keyTime);
     todos = res.map((e) => Todo.fromMap(e)).toList();
-    update(['todo_calendar_list']);
+    update();
   }
 
   _deleteItem(BuildContext context) async {
@@ -118,7 +118,7 @@ class ItemDetailLogic extends GetxController {
         await Get.toNamed('${RouteConfig.editItem}?itemId=${this.item.id}');
     if (item != null) {
       this.item = item;
-      update(['item_detail']);
+      update();
     }
   }
 

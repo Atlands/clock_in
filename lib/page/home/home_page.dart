@@ -20,10 +20,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Frequency'),
         actions: [
           IconButton(
-              onPressed: () {
-                // context.read<HomeProvider>().pushSetting(context);
-                logic.pushSetting();
-              },
+              onPressed: () => logic.pushSetting(),
               icon: const Icon(Icons.settings_outlined))
         ],
       ),

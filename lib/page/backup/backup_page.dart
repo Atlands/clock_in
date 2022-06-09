@@ -20,18 +20,25 @@ class BackupPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),
-             const Padding(
+              const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('1.备份/恢复过程可能需要一点时间，请不要离开当前页面\n2.请不要重复点击以免崩溃\n3.请不要选择不相关的文件\n4.备份/恢复需要存储权限，请点击允许'),
+                child: Text(''
+                    '1.备份/恢复过程可能需要一点时间，请不要离开当前页面\n'
+                    '2.请不要重复点击以免崩溃\n'
+                    '3.请不要选择不相关的文件\n'
+                    '4.备份/恢复需要存储权限，请点击允许\n'
+                    '5.备份文件位于内部存储/Download文件夹'),
               ),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(onPressed: logic.backup, child: const Text('备份')),
+                child: ElevatedButton(
+                    onPressed: logic.backup, child: const Text('备份')),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(onPressed: logic.restore, child: const Text('恢复')),
+                child: ElevatedButton(
+                    onPressed: logic.restore, child: const Text('恢复')),
               )
             ],
           ),

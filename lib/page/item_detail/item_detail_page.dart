@@ -22,7 +22,7 @@ class ItemDetailPage extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 title: GetBuilder<ItemDetailLogic>(
-                    id: 'item_detail',
+                    // id: 'item_detail',
                     builder: (logic) {
                       return Text(logic.item.name ?? '');
                     }),
@@ -45,7 +45,7 @@ class ItemDetailPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: GetBuilder<ItemDetailLogic>(
-                          id: 'item_detail',
+                          // id: 'item_detail',
                           builder: (logic) {
                             return Text(logic.item.note ?? '没有描述',
                                 style: Theme.of(context).textTheme.bodyText1);
@@ -57,7 +57,7 @@ class ItemDetailPage extends StatelessWidget {
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                 sliver: GetBuilder<ItemDetailLogic>(
-                    id: 'todo_calendar_list',
+                    // id: 'todo_calendar_list',
                     builder: (logic) {
                       return SliverGrid(
                         delegate: SliverChildBuilderDelegate(

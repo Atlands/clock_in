@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:frequency/page/todo_detail/todo_edit_dialog.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
@@ -43,7 +44,7 @@ class TodoDetailLogic extends GetxController {
       todo.name = text;
       await _db.update(Todo.keyClassName, todo.toMap(),
           where: '${Todo.keyId} = ?', whereArgs: [todo.id]);
-      update(['todo_list']);
+      update();
     }
   }
 
@@ -70,7 +71,7 @@ class TodoDetailLogic extends GetxController {
     item = list.first.map<Item>((e) => Item.fromMap(e)).first;
     todos = list.last.map((e) => Todo.fromMap(e)).toList();
     // calendarController.
-    update(['todo_list', 'item']);
+    update();
   }
 
   deleteTodo(Todo todo) async {
@@ -78,13 +79,13 @@ class TodoDetailLogic extends GetxController {
     await _db.delete(Todo.keyClassName,
         where: '${Todo.keyId} = ?', whereArgs: [todo.id]);
     todos.removeWhere((element) => element.id == todo.id);
-    update(['todo_list']);
+    update();
   }
 
   viewChanged(DateTime time) async {
     if (initDate.year != time.year || initDate.month != time.month) {
       initDate = time;
-      update(['todo_list']);
+      update();
     }
   }
 }

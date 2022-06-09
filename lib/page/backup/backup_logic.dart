@@ -66,7 +66,7 @@ class BackupLogic extends GetxController {
       // return encrypted.base64;
     }
     await File(
-            'storage/emulated/0/Download/frequency-backup-${Jiffy().format('yyyymmdd')}')
+            'storage/emulated/0/Download/frequency-backup-${Jiffy().format('yyyyMMdd')}')
         .writeAsString(json);
     Get.snackbar(_info.appName, '数据备份完成');
   }
